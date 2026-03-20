@@ -19,5 +19,8 @@ xhttp.onreadystatechange = function () {
   }
 }
 
-xhttp.open("GET", "/exampleapp/data.json", true)
+xhttp.open("GET", "Tehtävä-0.html", true)
 xhttp.send()
+
+
+
