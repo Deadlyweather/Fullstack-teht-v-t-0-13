@@ -22,6 +22,6 @@ browser.onreadystatechange = function() {
     }
 }
 
-browser.open("GET", "Tehtävä-0.json", true);
+browser.open("GET", "Tehtava-0.json", true);
 browser.send()
 

@@ -2,7 +2,7 @@
   "name": "fullstack-teht-v-t-0-13",
   "version": "1.0.0",
   "description": "",
-  "main": "Tehtävä-0.js",
+  "main": "Tehtava-0.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
