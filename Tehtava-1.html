@@ -3,97 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="Tehtava-1.css">
-    <title>Tehtava 1</title>
+    <link rel="stylesheet" href="public/Tehtava-0.css">
+    <title>Tehtava 0</title>
 </head>
 <body>
-    <h1>Tehtävä 0.4</h1><br>
-    <p>sequenceDiagram</p><br>
-    <p>    participant browser</p><br>
-    <p>    participant server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/notes</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: HTML file (notes)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/notes</p>
-    <p>    activate server</p><br>
-    <p>    server -> browser: css file (main.css)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/notes</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: js file (main.js)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>"xhttp.open("GET", "/exampleapp/data.json", true)" (javascript)</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/data.json</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: json file (data.json) [{ "content", "date" }]</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: POST https://studies.cs.helsinki.fi/exampleapp/notes</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: [{ "content": "Input message", "date": "Time"}]</p><br>
-    <p>    deactivate server</p><br>
-    <h1>Tehtävä 0.5</h1>
-    <p>sequenceDiagram</p><br>
-    <p>    participant browser</p><br>
-    <p>    participant server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/spa</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: HTML file (spa)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/spa</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: css file (main.css)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/spa</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: js file (spa.js)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>"xhttp.open("GET", "/exampleapp/data.json", true)" (javascript)</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/data.json</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: json file (data.json) [{ "content": "Input message", "date": "Time"}]</p><br>
-    <p>    deactivate server</p><br>
-    <h1>Tehtävä 0.6</h1>
-    <p>sequenceDiagram</p><br>
-    <p>    participant browser</p><br>
-    <p>    participant server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/spa</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: HTML file (spa)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/spa</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: css file (main.css)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/spa</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: js file (spa.js)</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>"xhttp.open("GET", "/exampleapp/data.json", true)" (javascript)</p><br>
-    <p></p><br>
-    <p>    browser -> server: GET https://studies.cs.helsinki.fi/exampleapp/data.json</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: json file (data.json) [{ "content", "date" }]</p><br>
-    <p>    deactivate server</p><br>
-    <p></p><br>
-    <p>    browser -> server: POST https://studies.cs.helsinki.fi/exampleapp/spa</p><br>
-    <p>    activate server</p><br>
-    <p>    server -> browser: [{ "content": "Input message", "date": "Time"}]</p><br>
-    <p>    deactivate server</p><br>
+    <div class="container">
+        <h1>Notes</h1>
+        <div id="notes">
+            <ul class="notes">
+                
+            </ul>
+        </div>
+        <form action="/new_note" method="POST">
+            <input type="text" name="note">
+            <br>
+            <input type="submit" value="Save">
+        </form>
+    </div>
 </body>
+<script src="public/Tehtava-0.js"></script>
 </html>
