@@ -55,7 +55,7 @@ const App = () => {
       
       
       <button onClick={handleVote}>Vote</button><br />
-
+      
       <h1>Anecdote with most votes</h1>
       {anecdotes[mostVotes().index]}
       <p>has {mostVotes().votes} votes</p>
