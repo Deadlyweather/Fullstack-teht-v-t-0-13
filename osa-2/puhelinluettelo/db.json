@@ -1,0 +1,25 @@
+{
+  "persons": [
+    {
+      "name": "deadlyweather",
+      "number": "14872187217812",
+      "id": "uAPFP58Pmbw"
+    },
+    {
+      "name": "Jack Black",
+      "number": "217821981981",
+      "id": "ZyaZO3fY9FU"
+    },
+    {
+      "name": "Moose",
+      "number": "129821912",
+      "id": "hc4lpl3jGbY"
+    },
+    {
+      "name": "cat",
+      "number": "4128921998",
+      "id": "SpoHuM6hD_U"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
