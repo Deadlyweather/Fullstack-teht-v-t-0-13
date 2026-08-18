@@ -5,7 +5,6 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 
 const api_key = import.meta.env.VITE_WEATHER_KEY
-console.log(api_key)
 
 const Searchbar = (props) => {
   return (
@@ -88,8 +87,6 @@ function App() {
 
   const KEY = api_key
 
-  console.log(KEY)
-
   const getWeather = () => {
     if (!Selected) {return}
     axios
@@ -104,10 +101,22 @@ function App() {
     getWeather()
   }, [Selected])
 
+  const filteredCountries = countries.filter(country => 
+    country.name.common.toLowerCase().includes(filters.toLowerCase())
+  )
+
+  useEffect(() => {
+    // Automaattinen valinta vain, jos ei ole manuaalista valintaa ja on täsmälleen yksi osuma
+    if (!Selected && filteredCountries.length === 1) {
+      setSelect(filteredCountries[0])
+    } else if (filteredCountries.length === 0) {
+      setSelect('')
+    }
+  }, [filters])
+
   const Filter = (event) => {
     console.log(event.target.value)
     setFilters(event.target.value)
-    // Poistaa valinnan kätevyyden vuoksi
     setSelect('')
   }
 
@@ -117,9 +126,7 @@ function App() {
 
   const MaxFilter = 10
 
-  const filteredCountries = countries.filter(country => 
-    country.name.common.toLowerCase().includes(filters.toLowerCase())
-  )
+  
 
   const SelectCountry = (event) => {
     setSelect(event.target.value)
