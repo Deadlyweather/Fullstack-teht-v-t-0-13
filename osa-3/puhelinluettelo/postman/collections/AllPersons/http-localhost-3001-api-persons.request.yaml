@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://localhost:3001/api/persons
+description: ""
+url: http://localhost:3001/api/persons
+method: GET
+order: 1787306199266
