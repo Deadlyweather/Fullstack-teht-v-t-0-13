@@ -1,0 +1,21 @@
+{
+  "name": "puhelinluettelo_backend",
+  "version": "1.0.0",
+  "description": "a",
+  "license": "ISC",
+  "author": "Deadlyweather",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.6"
+  },
+  "devDependencies": {
+    "axios": "^1.19.0",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
