@@ -1,29 +1,23 @@
 var express = require('express')
-var cors = require('cors')
 var app = express()
+var cors = require('cors')
 const baseUrl = 'http://localhost:3001/api/persons'
-
-const create = () => {
-  ""
-}
-const update = () => {
-  ""
-}
 
 app.use(cors())
 
-app.get("/", (request, response) => {
-  response.json({data1: 'Ello'})
-})
+let persons = [
+    { id: 1, name: 'Arto Hellas', number: '040-123456' },
+    { id: 2, name: 'Ada Lovelace', number: '39-44-5323523' },
+    { id: 3, name: 'Dan Abramov', number: '12-43-234345' },
+    { id: 4, name: 'Mary Poppendieck', number: '39-23-6423122' }
+]
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+app.get("/persons", (request, response) => {
+  response.json(persons)
+})
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`)
 })
 
-export default { getAll, create, update }
