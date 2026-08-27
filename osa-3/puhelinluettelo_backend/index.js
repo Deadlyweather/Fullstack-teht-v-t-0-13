@@ -2,7 +2,7 @@ var express = require('express')
 var app = express()
 var cors = require('cors')
 const baseUrl = 'http://localhost:3001/api/persons'
-
+app.use(express.static('dist'))
 app.use(cors())
 
 let persons = [
