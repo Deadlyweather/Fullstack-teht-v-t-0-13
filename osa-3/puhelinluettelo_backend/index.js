@@ -1,6 +1,5 @@
 var express = require('express')
 var app = express()
-const baseUrl = 'http://localhost:3001/api/persons'
 app.use(express.static('dist'))
 
 let persons = [
@@ -10,7 +9,7 @@ let persons = [
     { id: 4, name: 'Mary Poppendieck', number: '39-23-6423122' }
 ]
 
-app.get("/persons", (request, response) => {
+app.get("/api/persons", (request, response) => {
   response.json(persons)
 })
 
