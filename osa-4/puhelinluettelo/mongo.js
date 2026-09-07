@@ -14,28 +14,18 @@ mongoose.connect(url, { family: 4 })
 
 const personSchema = new mongoose.Schema({
   name: String,
-  number: String,
-  id: String,
+  number: Number
 })
 
 const Person = mongoose.model('Person', personSchema)
 
 const person = new Person({
   name: "Dude Person",
-  number: "123-456-7890",
-  id: "601"
+  number: 123-456-7890
 })
 
 person.save().then(result => {
   console.log('person saved!')
   mongoose.connection.close()
 })
-
-person.find({}).then(result => {
-  result.forEach(person => {
-    console.log(person)
-  })
-  mongoose.connection.close()
-})
-
 
