@@ -1,0 +1,13 @@
+* {
+    margin: 5px;
+    padding: 1px;
+    box-sizing: border-box;
+}
+h1 {
+    color: cyan
+    
+}
+
+.big {
+    font-size: 2rem;
+}
