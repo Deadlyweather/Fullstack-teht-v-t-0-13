@@ -2,68 +2,57 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const Person = require('./mongo')
-const axios = require('axios')
 
 const app = express()
 app.use(express.json())
 
 mongoose.set('strictQuery', false)
 
-app.get('/api/persons', (request, response) => {
-  Person.find({})
-    .then(persons => response.json(persons))
-    .catch(error => response.status(500).json({ error: error.message }))
-})
+const Carrier = {
+  getAll: () => app.get('/api/persons', (request, response) => {
+    Person.find({})
+      .then(persons => response.json(persons))
+      .catch(error => response.status(500).json({ error: error.message }))
+  }),
+  create: () => app.post('/api/persons', (request, response) => {
+    const person = new Person(request.body)
+    person.save()
+      .then(savedPerson => response.status(201).json(savedPerson))
+      .catch(error => response.status(400).json({ error: error.message }))
+  }),
+  update: () => app.put('/api/persons/:id', (request, response) => {
+    Person.findByIdAndUpdate(
+      request.params.id,
+      request.body,
+      { new: true, runValidators: true, context: 'query' }
+    )
+      .then(updatedPerson => {
+        if (updatedPerson) {
+          response.json(updatedPerson)
+        } else {
+          response.status(404).end()
+        }
+      })
+      .catch(error => response.status(400).json({ error: error.message }))
+  }),
+  kill: () => app.delete('/api/persons/:id', (request, response) => {
+    Person.findByIdAndDelete(request.params.id)
+      .then(deletedPerson => {
+        if (deletedPerson) response.status(204).end()
+        else response.status(404).end()
+      })
+      .catch(error => response.status(400).json({ error: error.message }))
+  })
+}
 
-app.post('/api/persons', (request, response) => {
-  const person = new Person(request.body)
-  person.save()
-    .then(savedPerson => response.status(201).json(savedPerson))
-    .catch(error => response.status(400).json({ error: error.message }))
-})
-
-app.put('/api/persons/:id', (request, response) => {
-  Person.findById(
-    request.params.id,
-    request.body,
-    { new: true, runValidators: true, context: 'query' }
-  )
-    .then(updatedPerson => {
-      if (updatedPerson) {
-        response.json(updatedPerson)
-      } else {
-        response.status(404).end()
-      }
-    })
-    .catch(error => response.status(400).json({ error: error.message }))
-})
-
-app.delete('/api/persons/:id', (request, response) => {
-  Person.findById(request.params.id)
-    .then(person => {
-      if (!person) {
-        console.log(`This person has already gone bye bye`)
-      } else {
-        person.delete(`${url}/${request.params.id}`)
-      }
-    })
-    .then(deletedPerson => {
-      if (deletedPerson) {
-        response.status(204).end()
-      } else {
-        response.status(404).end()
-      }
-    })
-    .catch(error => response.status(400).json({ error: error.message }))
-})
-
+Object.values(Carrier).forEach(registerRoute => registerRoute())
 
 const url = process.env.MONGODB_URI
 
 const PORT = process.env.PORT || 3001
 
 if (!url) {
-  console.error('MONGODB_URI is missing. Add it to osa-3/puhelinluettelo_mongo/.env')
+  console.error('MONGODB_URI is missing')
   process.exit(1)
 }
 
@@ -79,4 +68,3 @@ mongoose.connect(url, { family: 4 })
     console.error('error connecting to MongoDB:', error.message)
     process.exit(1)
   })
-
