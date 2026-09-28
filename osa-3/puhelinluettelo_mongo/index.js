@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const Person = require('./mongo')
+const axios = require('axios')
 
 const app = express()
 app.use(express.json())
@@ -39,6 +40,13 @@ app.put('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   Person.findById(request.params.id)
+    .then(person => {
+      if (!person) {
+        console.log(`This person has already gone bye bye`)
+      } else {
+        person.delete(`${url}/${request.params.id}`)
+      }
+    })
     .then(deletedPerson => {
       if (deletedPerson) {
         response.status(204).end()
@@ -52,17 +60,23 @@ app.delete('/api/persons/:id', (request, response) => {
 
 const url = process.env.MONGODB_URI
 
-console.log('connecting to', url)
+const PORT = process.env.PORT || 3001
+
+if (!url) {
+  console.error('MONGODB_URI is missing. Add it to osa-3/puhelinluettelo_mongo/.env')
+  process.exit(1)
+}
+
+console.log('connecting to MongoDB')
 mongoose.connect(url, { family: 4 })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`)
+    })
   })
   .catch((error) => {
-    console.log('error connecting to MongoDB:', error.message)
+    console.error('error connecting to MongoDB:', error.message)
+    process.exit(1)
   })
-
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
 
