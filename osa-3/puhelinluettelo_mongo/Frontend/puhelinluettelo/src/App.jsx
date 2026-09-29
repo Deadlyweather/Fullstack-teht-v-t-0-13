@@ -183,6 +183,7 @@ const App = () => {
           console.log('error', error)
           setPersons(persons.filter(person => person.id !== id))
           setNewMessage(`${person.name} has already been murderated and is now updated`)
+          setTimeout(() => setNewMessage(''), 5000)
         })
     }
   }

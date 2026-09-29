@@ -17,14 +17,14 @@ const Carrier = {
   create: () => app.post('/api/persons', (request, response) => {
     const person = new Person(request.body)
     person.save()
-      .then(savedPerson => response.status(201).json(savedPerson))
+      .then(savedPerson => response.json(savedPerson))
       .catch(error => response.status(400).json({ error: error.message }))
   }),
   update: () => app.put('/api/persons/:id', (request, response) => {
     Person.findByIdAndUpdate(
       request.params.id,
       request.body,
-      { new: true, runValidators: true, context: 'query' }
+      
     )
       .then(updatedPerson => {
         if (updatedPerson) {
