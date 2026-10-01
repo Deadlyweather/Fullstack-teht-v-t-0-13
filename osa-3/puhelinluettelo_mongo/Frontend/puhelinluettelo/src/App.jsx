@@ -62,7 +62,9 @@ const Notification = (props) => {
     return null
   }
 
-  const isDeleteMessage = props.newMessage.includes('murderated') || props.newMessage.includes('killed')
+  const isDeleteMessage = props.newMessage.includes('murderated') ||
+    props.newMessage.includes('killed') ||
+    props.newMessage.includes('Target persevered')
   
   const notificationStyle = {
     color: isDeleteMessage ? 'red' : 'lime',
@@ -181,8 +183,7 @@ const App = () => {
         })
         .catch(error => {
           console.log('error', error)
-          setPersons(persons.filter(person => person.id !== id))
-          setNewMessage(`${person.name} has already been murderated and is now updated`)
+          setNewMessage(`Failed to delete ${person.name}: ${error.message}`)
           setTimeout(() => setNewMessage(''), 5000)
         })
     }
