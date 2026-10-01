@@ -3,12 +3,7 @@ require('dotenv').config()
 
 const personSchema = new mongoose.Schema({
   name: String,
-  number: String,
-  minlength: 8,
-  initial: {
-    minlength: 2,
-    maxlength: 3
-  }
+  number: String
   
 })
 
