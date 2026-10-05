@@ -3,8 +3,19 @@ require('dotenv').config()
 
 const personSchema = new mongoose.Schema({
   name: String,
-  number: String
-  
+  number: String,
+  Requirements: {
+    // nimi on oltava vähintään 3 merkkiä pitkä ja enintään 15 merkkiä pitkä
+    req1: {
+      minlength: 3,
+      maxlength: 15
+    },
+    // numero on oltava vähintään 8 merkkiä pitkä ja enintään 15 merkkiä pitkä
+    req2: {
+      minlength: 8,
+      maxlength: 15
+    }
+  }
 })
 
 personSchema.set('toJSON', {
@@ -14,6 +25,8 @@ personSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
+
+
 
 const Person = mongoose.models.Person || mongoose.model('Person', personSchema)
 
