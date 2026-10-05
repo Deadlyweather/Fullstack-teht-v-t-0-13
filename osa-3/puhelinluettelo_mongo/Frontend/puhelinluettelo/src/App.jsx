@@ -129,6 +129,21 @@ const App = () => {
       })
       // if nonexistant
       .catch(error => {
+        // jos nimi on alle 3 merkkiä
+        if (newName.length < 3) {
+          setNewMessage(`Name must be at least 3 characters long so were going to kill ${newName}`)
+          setTimeout(() => setNewMessage(''), 5000)
+        }
+        // jos numero on alle 8 merkkiä
+        else if (newNumber.length < 8) {
+          setNewMessage(`Number must be at least 8 characters long so were going to kill ${newName}`)
+          setTimeout(() => setNewMessage(''), 5000)
+        }
+        // jos ensimmäisen - merkkiä ennen ei ole 2-3 numeroa
+        else if (!/^\d{2,3}-\d+$/.test(newNumber)) {
+          setNewMessage(`Number must look like xx-xxxxxxx or xxx-xxxxxxx so were going to kill ${newName}`)
+          setTimeout(() => setNewMessage(''), 5000)
+        }
         console.log('error', error)
         setNewMessage(`Information of ${person.name} is invalid and has been killed from the server`)
         setTimeout(() => setNewMessage(''), 5000)
@@ -167,6 +182,16 @@ const App = () => {
       // Jos nimi on alle 3 merkkiä
       if (newName.length < 3) {
         setNewMessage(`Name must be at least 3 characters long so were going to kill ${newName}`)
+        setTimeout(() => setNewMessage(''), 5000)
+      }
+      // Jos numero on alle 8 merkkiä
+      else if (newNumber.length < 8) {
+        setNewMessage(`Number must be at least 8 characters long so were going to kill ${newName}`)
+        setTimeout(() => setNewMessage(''), 5000)
+      }
+      // Jos ensimmäisen - merkkiä ennen ei ole 2-3 numeroa
+      else if (!/^\d{2,3}-\d+$/.test(newNumber)) {
+        setNewMessage(`Number must look like xx-xxxxxxx or xxx-xxxxxxx so were going to kill ${newName}`)
         setTimeout(() => setNewMessage(''), 5000)
       }
       console.log('error', error)
