@@ -164,6 +164,11 @@ const App = () => {
         setTimeout(() => setNewMessage(''), 5000)
     })
     .catch(error => {
+      // Jos nimi on alle 3 merkkiä
+      if (newName.length < 3) {
+        setNewMessage(`Name must be at least 3 characters long so were going to kill ${newName}`)
+        setTimeout(() => setNewMessage(''), 5000)
+      }
       console.log('error', error)
       setNewMessage(`Failed to add ${newName}`)
       setTimeout(() => setNewMessage(''), 5000)
