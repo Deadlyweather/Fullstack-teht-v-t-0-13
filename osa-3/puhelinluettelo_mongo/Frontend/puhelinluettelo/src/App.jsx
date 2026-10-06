@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import peopleService from './Persons.js'
 
 
+
 const Filter = (props) => {
   return (
     <div>
@@ -15,7 +16,7 @@ const Filter = (props) => {
 }
 
 const PersonForm = (props) => {
-  const { addName, newName, newNumber, handleNameChange, handleNumberChange } = props
+  const { addName, newName, newNumber, handleNameChange, handleNumberChange, onPurge } = props
   return (
     <form onSubmit={addName}>
       <div>
@@ -37,6 +38,7 @@ const PersonForm = (props) => {
 
       <div>
         <button type="submit">add</button>
+        <button type="button" onClick={onPurge}>Purge</button>
       </div>
     </form>
   )
@@ -64,8 +66,10 @@ const Notification = (props) => {
 
   const isDeleteMessage = props.newMessage.includes('murderated') ||
     props.newMessage.includes('killed') ||
-    props.newMessage.includes('Target persevered')
-  
+    props.newMessage.includes('Target persevered') ||
+    props.newMessage.includes('Denied') ||
+    props.newMessage.includes('purged')
+
   const notificationStyle = {
     color: isDeleteMessage ? 'red' : 'lime',
     backgroundColor: isDeleteMessage ? '#ffe0e0' : '#e0ffe0',
@@ -118,6 +122,14 @@ const App = () => {
     const person = persons.find(p => p.id === id)
     const newObject = { ...person, number: newNumber }
 
+    try {
+      peopleService.validate(newObject)
+    } catch (error) {
+      setNewMessage(error.message)
+      setTimeout(() => setNewMessage(''), 5000)
+      return
+    }
+
     peopleService
       .update(id, newObject)
       .then(response => {
@@ -129,21 +141,6 @@ const App = () => {
       })
       // if nonexistant
       .catch(error => {
-        // jos nimi on alle 3 merkkiä
-        if (newName.length < 3) {
-          setNewMessage(`Name must be at least 3 characters long so were going to kill ${newName}`)
-          setTimeout(() => setNewMessage(''), 5000)
-        }
-        // jos numero on alle 8 merkkiä
-        else if (newNumber.length < 8) {
-          setNewMessage(`Number must be at least 8 characters long so were going to kill ${newName}`)
-          setTimeout(() => setNewMessage(''), 5000)
-        }
-        // jos ensimmäisen - merkkiä ennen ei ole 2-3 numeroa
-        else if (!/^\d{2,3}-\d+$/.test(newNumber)) {
-          setNewMessage(`Number must look like xx-xxxxxxx or xxx-xxxxxxx so were going to kill ${newName}`)
-          setTimeout(() => setNewMessage(''), 5000)
-        }
         console.log('error', error)
         setNewMessage(`Information of ${person.name} is invalid and has been killed from the server`)
         setTimeout(() => setNewMessage(''), 5000)
@@ -169,6 +166,14 @@ const App = () => {
       return
     }
 
+    try {
+      peopleService.validate(nameObject)
+    } catch (error) {
+      setNewMessage(error.message)
+      setTimeout(() => setNewMessage(''), 5000)
+      return
+    }
+
     peopleService
       .create(nameObject)
       .then(response => {
@@ -179,21 +184,6 @@ const App = () => {
         setTimeout(() => setNewMessage(''), 5000)
     })
     .catch(error => {
-      // Jos nimi on alle 3 merkkiä
-      if (newName.length < 3) {
-        setNewMessage(`Name must be at least 3 characters long so were going to kill ${newName}`)
-        setTimeout(() => setNewMessage(''), 5000)
-      }
-      // Jos numero on alle 8 merkkiä
-      else if (newNumber.length < 8) {
-        setNewMessage(`Number must be at least 8 characters long so were going to kill ${newName}`)
-        setTimeout(() => setNewMessage(''), 5000)
-      }
-      // Jos ensimmäisen - merkkiä ennen ei ole 2-3 numeroa
-      else if (!/^\d{2,3}-\d+$/.test(newNumber)) {
-        setNewMessage(`Number must look like xx-xxxxxxx or xxx-xxxxxxx so were going to kill ${newName}`)
-        setTimeout(() => setNewMessage(''), 5000)
-      }
       console.log('error', error)
       setNewMessage(`Failed to add ${newName}`)
       setTimeout(() => setNewMessage(''), 5000)
@@ -219,7 +209,37 @@ const App = () => {
     }
   }
 
-  
+  // async tekee promisen käsittelystä helpompaa (ainakin tekoälyn mielestä)
+  const purgeBadNumbers = async () => {
+    const invalidPeople = persons.filter(person => {
+      try {
+        peopleService.validate(person)
+        return false
+      } catch {
+        return true
+      }
+    })
+
+    if (invalidPeople.length === 0) {
+      setNewMessage('No invalid numbers to purge')
+      setTimeout(() => setNewMessage(''), 5000)
+      return
+    }
+
+    try {
+      await Promise.all(invalidPeople.map(person => peopleService.kill(person.id)))
+      const remainingPeople = persons.filter(
+        person => !invalidPeople.some(invalid => invalid.id === person.id)
+      )
+      setPersons(remainingPeople)
+      setNewMessage(`${invalidPeople.length} unlucky people purged`)
+      setTimeout(() => setNewMessage(''), 5000)
+    } catch (error) {
+      console.log('error', error)
+      setNewMessage('Failed to purge invalid entries')
+      setTimeout(() => setNewMessage(''), 5000)
+    }
+  }
 
   const handleNameChange = (event) => {
     console.log(event.target.value)
@@ -238,7 +258,9 @@ const App = () => {
     setFilterBy(event.target.value)
   }
   
-  const personsFiltered = filterBy === '' ? persons : persons.filter(person => person.name.toLowerCase().includes(filterBy.toLowerCase()))
+  const personsFiltered = filterBy.trim() === ''
+    ? persons
+    : persons.filter(person => (person.name ?? '').toLowerCase().includes(filterBy.trim().toLowerCase()))
 
     return (
     <div>
@@ -259,6 +281,7 @@ const App = () => {
         newNumber={newNumber}
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
+        onPurge={purgeBadNumbers}
       />
 
       <h3>Numbers</h3>
