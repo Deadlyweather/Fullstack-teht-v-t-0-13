@@ -25,14 +25,14 @@ if (require.main === module && process.argv.length < 3) {
   process.exit(1)
 }
 
-if (require.main === module && process.argv[3] != undefined && process.argv[4] != undefined) {
+if (require.main === module && process.argv[3] !== undefined && process.argv[4] !== undefined) {
 
   const person = new Person({
     name: process.argv[3],
     number: process.argv[4]
   })
 
-  person.save().then(result => {
+  person.save().then(() => {
     console.log(`added ${person.name} number ${person.number} to phonebook`)
     mongoose.connection.close()
   })
@@ -49,5 +49,5 @@ if (require.main === module && process.argv[3] != undefined && process.argv[4] !
     mongoose.connection.close()
   })
 }
- 
+
 

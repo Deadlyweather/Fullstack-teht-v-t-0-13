@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-app.use(express.static('dist'))
-
 const baseUrl = '/api/persons'
 
 const getAll = () => axios.get(baseUrl).then(response => response.data)

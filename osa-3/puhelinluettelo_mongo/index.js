@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const Person = require('./mongo')
 
 const app = express()
-app.use(express.json())
+app.use(express.static(require('path').join(__dirname, 'dist')))
 
 mongoose.set('strictQuery', false)
 

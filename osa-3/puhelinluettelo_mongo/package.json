@@ -6,10 +6,16 @@
     "morgan": "^1.12.1"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "eslint ."
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "axios": "^1.20.0",
-    "dotenv": "^18.0.3"
+    "dotenv": "^18.0.3",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "typescript-eslint": "^8.71.1"
   }
 }
